@@ -1,0 +1,41 @@
+@page
+@model dr4_at.Pages.CalculoModel
+@{
+    ViewData["Title"] = "Cálculo de Reserva";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Cálculo de Reserva</h2>
+
+        <form method="post">
+            <div class="form-group mb-3">
+                <label for="QuantidadeParticipantes" class="form-label">Quantidade de Participantes:</label>
+                <input asp-for="QuantidadeParticipantes" class="form-control" type="number" min="1"/>
+                <span asp-validation-for="QuantidadeParticipantes" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="PrecoPacote" class="form-label">Preço do Pacote (R$):</label>
+                <input asp-for="PrecoPacote" class="form-control" type="number" min="1"/>
+                <span asp-validation-for="PrecoPacote" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Calcular Valor Total</button>
+        </form>
+
+        @if (Model.ValorTotal.HasValue)
+        {
+            <div class="mt-4 p-3 border rounded bg-light">
+                <h4>Resultado:</h4>
+                <p><strong>Participantes:</strong> @Model.QuantidadeParticipantes</p>
+                <p><strong>Preço por pessoa:</strong> R$ @Model.PrecoPacote.ToString("N0")</p>
+                <p><strong>Valor Total:</strong> R$ @Model.ValorTotal.Value.ToString("F2")</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
