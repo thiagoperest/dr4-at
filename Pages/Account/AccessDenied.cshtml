@@ -1,0 +1,17 @@
+@page
+@model dr4_at.Pages.Account.AccessDeniedModel
+@{
+    ViewData["Title"] = "Acesso Negado";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="alert alert-warning" role="alert">
+    <h4 class="alert-heading">Acesso Negado!</h4>
+    <p>Você não tem permissão para acessar esta página.</p>
+    <hr>
+    <p class="mb-0">
+        <a asp-page="/Account/Login" class="btn btn-primary">Fazer Login</a>
+        <a asp-page="/Index" class="btn btn-secondary">Voltar à página inicial</a>
+    </p>
+</div>
