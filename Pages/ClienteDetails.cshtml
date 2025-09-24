@@ -1,0 +1,33 @@
+@page "/ClienteDetails/{id:int}"
+@model dr4_at.Pages.ClienteDetailsModel
+@{
+    ViewData["Title"] = "Detalhes do Cliente";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>Detalhes do Cliente</h2>
+
+        @if (Model.Cliente != null)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h4>Cliente #@Model.Cliente.Id</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>ID:</strong> @Model.Cliente.Id</p>
+                    <p><strong>Nome:</strong> @Model.Cliente.Nome</p>
+                    <p><strong>Email:</strong> @Model.Cliente.Email</p>
+                    <p><strong>Data de Criação:</strong> @DateTime.Now.ToString("dd/MM/yyyy")</p>
+                    <p><strong>Status:</strong> @(Model.Cliente.IsDeleted ? "Inativo" : "Ativo")</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning">
+                Cliente não encontrado.
+            </div>
+        }
+    </div>
+</div>
