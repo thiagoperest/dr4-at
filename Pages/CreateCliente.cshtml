@@ -1,0 +1,38 @@
+@page
+@model dr4_at.Pages.CreateClienteModel
+@{
+    ViewData["Title"] = "Criar Cliente";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Criar Novo Cliente</h2>
+
+        <form method="post">
+            <div class="form-group mb-3">
+                <label for="Cliente.Nome" class="form-label">Nome:</label>
+                <input asp-for="Cliente.Nome" class="form-control"/>
+                <span asp-validation-for="Cliente.Nome" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="Cliente.Email" class="form-label">Email:</label>
+                <input asp-for="Cliente.Email" class="form-control" type="email"/>
+                <span asp-validation-for="Cliente.Email" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Criar Cliente</button>
+        </form>
+
+        @if (Model.MensagemSucesso != null)
+        {
+            <div class="alert alert-success mt-3">
+                @Model.MensagemSucesso
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
