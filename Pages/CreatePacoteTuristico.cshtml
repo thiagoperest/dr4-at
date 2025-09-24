@@ -1,0 +1,32 @@
+@page
+@model dr4_at.Pages.CreatePacoteTuristicoModel
+@{
+    ViewData["Title"] = "Criar Pacote Turístico";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Criar Novo Pacote Turístico</h2>
+
+        <form method="post">
+            <div class="form-group mb-3">
+                <label for="Nome" class="form-label">Nome:</label>
+                <input asp-for="Nome" class="form-control"/>
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Criar Pacote</button>
+        </form>
+
+        @if (Model.MensagemSucesso != null)
+        {
+            <div class="alert alert-success mt-3">
+                @Model.MensagemSucesso
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

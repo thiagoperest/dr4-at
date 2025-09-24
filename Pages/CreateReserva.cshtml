@@ -1,0 +1,38 @@
+@page
+@model dr4_at.Pages.CreateReservaModel
+@{
+    ViewData["Title"] = "Criar Reserva";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Criar Nova Reserva</h2>
+
+        <form method="post">
+            <div class="form-group mb-3">
+                <label for="NomeCliente" class="form-label">Nome do Cliente:</label>
+                <input asp-for="NomeCliente" class="form-control"/>
+                <span asp-validation-for="NomeCliente" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="PacoteId" class="form-label">ID do Pacote:</label>
+                <input asp-for="PacoteId" class="form-control" type="number"/>
+                <span asp-validation-for="PacoteId" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Criar Reserva</button>
+        </form>
+
+        @if (Model.MensagemSucesso != null)
+        {
+            <div class="alert alert-success mt-3">
+                @Model.MensagemSucesso
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
