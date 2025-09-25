@@ -1,0 +1,57 @@
+@page
+@model dr4_at.Pages.Clientes.CreateModel
+@{
+    ViewData["Title"] = "Novo Cliente";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0">Cadastrar Novo Cliente</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Cliente.Nome" class="form-label">Nome Completo</label>
+                                <input asp-for="Cliente.Nome" class="form-control"
+                                       placeholder="Digite o nome completo"/>
+                                <span asp-validation-for="Cliente.Nome" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Cliente.Email" class="form-label">Email</label>
+                                <input asp-for="Cliente.Email" type="email" class="form-control"
+                                       placeholder="exemplo@email.com"/>
+                                <span asp-validation-for="Cliente.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a asp-page="./Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Voltar à Lista
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-save"></i> Salvar Cliente
+                        </button>
+                    </div>
+                </form>
+
+                @if (!string.IsNullOrEmpty(Model.MensagemSucesso))
+                {
+                    <div class="alert alert-success mt-3">
+                        <i class="bi bi-check-circle"></i> @Model.MensagemSucesso
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

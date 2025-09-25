@@ -1,0 +1,86 @@
+@page "{id:int}"
+@model dr4_at.Pages.Clientes.DetailsModel
+@{
+    ViewData["Title"] = "Detalhes do Cliente";
+}
+
+<div class="row">
+    <div class="col-12">
+        @if (Model.Cliente != null)
+        {
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Detalhes do Cliente</h3>
+                    <div>
+                        @if (Model.Cliente.IsDeleted)
+                        {
+                            <span class="badge bg-secondary fs-6">Inativo</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success fs-6">Ativo</span>
+                        }
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Informações Pessoais</h5>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th width="30%">ID:</th>
+                                    <td><strong>@Model.Cliente.Id</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>Nome:</th>
+                                    <td><strong>@Model.Cliente.Nome</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>Email:</th>
+                                    <td>
+                                        <a href="mailto:@Model.Cliente.Email" class="text-decoration-none">
+                                            @Model.Cliente.Email
+                                        </a>
+                                    </td>
+                                </tr>
+                                @if (Model.Cliente.DeletedAt.HasValue)
+                                {
+                                    <tr>
+                                        <th>Inativado em:</th>
+                                        <td class="text-muted">@Model.Cliente.DeletedAt.Value.ToString("dd/MM/yyyy HH:mm")</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <a asp-page="./Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Voltar à Lista
+                        </a>
+                        @if (!Model.Cliente.IsDeleted)
+                        {
+                            <div>
+                                <a asp-page="./Edit" asp-route-id="@Model.Cliente.Id" class="btn btn-warning me-2">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
+                                <a asp-page="./Delete" asp-route-id="@Model.Cliente.Id" class="btn btn-danger">
+                                    <i class="bi bi-x-circle"></i> Inativar
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning">
+                <h5>Cliente não encontrado</h5>
+                <p>O cliente solicitado não foi encontrado ou não existe.</p>
+                <a asp-page="./Index" class="btn btn-primary">Voltar à Lista</a>
+            </div>
+        }
+    </div>
+</div>

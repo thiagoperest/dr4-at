@@ -49,7 +49,7 @@ namespace dr4_at.Data
                 entity.HasOne(e => e.Cliente)
                     .WithMany(c => c.Reservas)
                     .HasForeignKey(e => e.ClienteId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.PacoteTuristico)
                     .WithMany(p => p.Reservas)
