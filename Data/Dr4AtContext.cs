@@ -13,6 +13,7 @@ namespace dr4_at.Data
         public DbSet<Destino> Destinos { get; set; }
         public DbSet<PacoteTuristico> PacotesTuristicos { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
+        public DbSet<PacoteDestino> PacoteDestinos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +29,7 @@ namespace dr4_at.Data
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Cidade).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.Pais).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.DeletedAt);
             });
 
             modelBuilder.Entity<PacoteTuristico>(entity =>
@@ -53,6 +55,24 @@ namespace dr4_at.Data
                     .WithMany(p => p.Reservas)
                     .HasForeignKey(e => e.PacoteTuristicoId)
                     .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<PacoteDestino>(entity =>
+            {
+                entity.HasKey(e => new { e.PacoteTuristicoId, e.DestinoId });
+                
+                entity.HasOne(e => e.PacoteTuristico)
+                    .WithMany(p => p.PacoteDestinos)
+                    .HasForeignKey(e => e.PacoteTuristicoId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                
+                entity.HasOne(e => e.Destino)
+                    .WithMany(d => d.PacoteDestinos)
+                    .HasForeignKey(e => e.DestinoId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                
+                entity.Property(e => e.DataInclusao).IsRequired();
+                entity.Property(e => e.OrdemVisita).IsRequired();
             });
 
             base.OnModelCreating(modelBuilder);

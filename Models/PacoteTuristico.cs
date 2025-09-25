@@ -9,6 +9,6 @@ public class PacoteTuristico
     public decimal Preco { get; set; }
     public DateTime? DeletedAt { get; set; }
     public bool IsDeleted => DeletedAt.HasValue;
-    public List<Destino> Destinos { get; set; } = new List<Destino>();
+    public List<PacoteDestino> PacoteDestinos { get; set; } = new List<PacoteDestino>();
     public List<Reserva> Reservas { get; set; } = new List<Reserva>();
 }
