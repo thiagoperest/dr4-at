@@ -1,0 +1,74 @@
+@page
+@model dr4_at.Pages.ViewNotesModel
+@{
+    ViewData["Title"] = "Sistema de Notas";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Criar Nova Nota</h2>
+
+        <form method="post">
+            <div class="form-group mb-3">
+                <label for="NomeArquivo" class="form-label">Nome do Arquivo:</label>
+                <input asp-for="NomeArquivo" class="form-control"/>
+                <span asp-validation-for="NomeArquivo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="ConteudoNota" class="form-label">Conteúdo da Nota:</label>
+                <textarea asp-for="ConteudoNota" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="ConteudoNota" class="text-danger"></span>
+            </div>
+
+            <button type="submit" name="action" value="criar" class="btn btn-primary">Salvar Nota</button>
+        </form>
+
+        @if (!string.IsNullOrEmpty(Model.MensagemSucesso))
+        {
+            <div class="alert alert-success mt-3">
+                @Model.MensagemSucesso
+            </div>
+        }
+    </div>
+
+    <div class="col-md-6">
+        <h2>Notas Disponíveis</h2>
+
+        @if (Model.ArquivosDisponiveis?.Any() == true)
+        {
+            <div class="list-group">
+                @foreach (var arquivo in Model.ArquivosDisponiveis)
+                {
+                    <form method="post" style="display: inline;">
+                        <input type="hidden" name="arquivoSelecionado" value="@arquivo"/>
+                        <button type="submit" name="action" value="visualizar"
+                                class="list-group-item list-group-item-action">
+                            @arquivo
+                        </button>
+                    </form>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">Nenhuma nota encontrada.</p>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.ConteudoVisualizacao))
+        {
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5>@Model.ArquivoVisualizando</h5>
+                </div>
+                <div class="card-body">
+                    <pre>@Model.ConteudoVisualizacao</pre>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

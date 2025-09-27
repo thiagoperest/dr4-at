@@ -1,0 +1,88 @@
+@page
+@model dr4_at.Pages.Clientes.IndexModel
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Lista de Clientes</h2>
+            <a asp-page="./Create" class="btn btn-primary">
+                <i class="bi bi-plus"></i> Novo Cliente
+            </a>
+        </div>
+
+        @if (Model.Clientes?.Any() == true)
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var cliente in Model.Clientes)
+                    {
+                        <tr class="@(cliente.IsDeleted ? "table-secondary text-muted" : "")">
+                            <td>@cliente.Id</td>
+                            <td>
+                                <strong>@cliente.Nome</strong>
+                            </td>
+                            <td>
+                                <a href="mailto:@cliente.Email" class="text-decoration-none">
+                                    @cliente.Email
+                                </a>
+                            </td>
+                            <td>
+                                @if (cliente.IsDeleted)
+                                {
+                                    <span class="badge bg-secondary">Inativo</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">Ativo</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a asp-page="./Details" asp-route-id="@cliente.Id"
+                                       class="btn btn-info btn-sm"
+                                       style="color: white; --bs-btn-color: white; --bs-btn-hover-bg: #0dcaf0; --bs-btn-hover-border-color: #0dcaf0; --bs-btn-hover-color: white;">
+                                        Detalhes
+                                    </a>
+                                    @if (!cliente.IsDeleted)
+                                    {
+                                        <a asp-page="./Edit" asp-route-id="@cliente.Id"
+                                           class="btn btn-warning btn-sm"
+                                           style="color: white; --bs-btn-color: white; --bs-btn-hover-bg: #ffca2c; --bs-btn-hover-border-color: #ffca2c; --bs-btn-hover-color: white;">
+                                            Editar
+                                        </a>
+                                        <a asp-page="./Delete" asp-route-id="@cliente.Id"
+                                           class="btn btn-danger btn-sm"
+                                           style="--bs-btn-hover-bg: #e74c3c; --bs-btn-hover-border-color: #e74c3c; --bs-btn-hover-color: white;">
+                                            Inativar
+                                        </a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info text-center">
+                <h5>Nenhum cliente cadastrado</h5>
+                <p>Clique em "Novo Cliente" para cadastrar o primeiro cliente.</p>
+            </div>
+        }
+    </div>
+</div>

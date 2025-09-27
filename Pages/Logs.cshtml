@@ -1,0 +1,75 @@
+@page
+@model dr4_at.Pages.LogsModel
+@{
+    ViewData["Title"] = "Sistema de Logs";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>Sistema de Logs</h2>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Simular Criação de Reserva</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="ClienteNome" class="form-label">Nome do Cliente:</label>
+                                <input asp-for="ClienteNome" class="form-control"/>
+                                <span asp-validation-for="ClienteNome" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="PacoteId" class="form-label">Destino:</label>
+                                <select asp-for="PacoteId" class="form-control">
+                                    <option value="0">Selecione um destino</option>
+                                    <option value="1">Rio de Janeiro</option>
+                                    <option value="2">Bahia</option>
+                                    <option value="3">São Paulo</option>
+                                </select>
+                                <span asp-validation-for="PacoteId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Criar Reserva</button>
+                </form>
+            </div>
+        </div>
+
+        @if (Model.LogsMemoria?.Any() == true)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h5>Logs (@Model.LogsMemoria.Count registros)</h5>
+                </div>
+                <div class="card-body">
+                    <div
+                        style="background-color: #f8f9fa; padding: 10px; border-radius: 5px; max-height: 400px; overflow-y: auto;">
+                        @foreach (var log in Model.LogsMemoria.OrderByDescending(x => x))
+                        {
+                            <div class="mb-1">
+                                <small class="text-muted">@log</small>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.MensagemSucesso))
+        {
+            <div class="alert alert-success mt-3">
+                @Model.MensagemSucesso
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

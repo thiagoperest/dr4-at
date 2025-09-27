@@ -1,0 +1,85 @@
+@page
+@model dr4_at.Pages.EventoModel
+@{
+    ViewData["Title"] = "Evento de Capacidade";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>Evento de Alerta para Limite de Capacidade</h2>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Simular Criação de Reserva</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="NomeCliente" class="form-label">Nome do Cliente:</label>
+                                <input asp-for="NomeCliente" class="form-control" />
+                                <span asp-validation-for="NomeCliente" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="PacoteId" class="form-label">Pacote:</label>
+                                <select asp-for="PacoteId" class="form-control">
+                                    <option value="0">Selecione um pacote</option>
+                                    <option value="1">Rio de Janeiro (Máx: 3)</option>
+                                    <option value="2">Bahia (Máx: 2)</option>
+                                    <option value="3">São Paulo (Máx: 5)</option>
+                                </select>
+                                <span asp-validation-for="PacoteId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success">Criar Reserva</button>
+                </form>
+            </div>
+        </div>
+
+        @if (Model.AlertasCapacidade?.Any() == true)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h5>Alertas de Capacidade</h5>
+                </div>
+                <div class="card-body">
+                    @foreach (var alerta in Model.AlertasCapacidade)
+                    {
+                        <div class="alert alert-warning">@alerta</div>
+                    }
+                </div>
+            </div>
+        }
+        
+        @if (!string.IsNullOrEmpty(Model.MensagemSucesso))
+        {
+            <div class="alert alert-success mt-3">
+                @Model.MensagemSucesso
+            </div>
+        }
+
+        @if (Model.ReservasAtivas?.Any() == true)
+        {
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5>Reservas Ativas</h5>
+                </div>
+                <div class="card-body">
+                    @foreach (var reserva in Model.ReservasAtivas)
+                    {
+                        <p>@reserva</p>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

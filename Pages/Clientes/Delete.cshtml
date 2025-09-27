@@ -1,0 +1,88 @@
+@page "{id:int}"
+@model dr4_at.Pages.Clientes.DeleteModel
+@{
+    ViewData["Title"] = "Inativar Cliente";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        @if (Model.Cliente != null)
+        {
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Inativar Cliente
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <i class="bi bi-info-circle"></i>
+                        <strong>Atenção!</strong> O cliente será marcado como inativo.
+                    </div>
+
+                    <h5>Você tem certeza que deseja inativar este cliente?</h5>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h6>Informações do Cliente:</h6>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th width="25%">ID:</th>
+                                    <td><strong>@Model.Cliente.Id</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>Nome:</th>
+                                    <td><strong>@Model.Cliente.Nome</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>Email:</th>
+                                    <td>@Model.Cliente.Email</td>
+                                </tr>
+                                <tr>
+                                    <th>Status:</th>
+                                    <td>
+                                        @if (Model.Cliente.IsDeleted)
+                                        {
+                                            <span class="badge bg-secondary">Inativo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">Ativo</span>
+                                        }
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <form method="post" class="mt-4">
+                        <input type="hidden" asp-for="Cliente.Id"/>
+
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <a asp-page="./Index" class="btn btn-secondary me-2">
+                                    <i class="bi bi-arrow-left"></i> Cancelar
+                                </a>
+                                <a asp-page="./Details" asp-route-id="@Model.Cliente.Id" class="btn btn-outline-info">
+                                    <i class="bi bi-eye"></i> Ver Detalhes
+                                </a>
+                            </div>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-x-circle"></i> Confirmar Inativação
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning">
+                <h5>Cliente não encontrado</h5>
+                <p>O cliente que você está tentando excluir não foi encontrado.</p>
+                <a asp-page="./Index" class="btn btn-primary">Voltar à Lista</a>
+            </div>
+        }
+    </div>
+</div>

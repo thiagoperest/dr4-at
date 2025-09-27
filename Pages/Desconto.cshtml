@@ -1,0 +1,36 @@
+@page
+@model dr4_at.Pages.DescontoModel
+@{
+    ViewData["Title"] = "Cálculo de Desconto";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Cálculo de Desconto - Pacote Turístico</h2>
+
+        <form method="post">
+            <div class="form-group mb-3">
+                <label for="Preco" class="form-label">Preço do Pacote (R$):</label>
+                <input asp-for="Preco" class="form-control" type="number" step="0.01" min="0"/>
+                <span asp-validation-for="Preco" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Calcular Desconto</button>
+        </form>
+
+        @if (Model.PrecoComDesconto.HasValue)
+        {
+            <div class="mt-4 p-3 border rounded bg-light">
+                <h4>Resultado:</h4>
+                <p><strong>Preço Original:</strong> R$ @Model.Preco.ToString("F2")</p>
+                <p><strong>Desconto (10%):</strong> R$ @((Model.Preco - Model.PrecoComDesconto.Value).ToString("F2"))
+                </p>
+                <p><strong>Preço Final:</strong> R$ @Model.PrecoComDesconto.Value.ToString("F2")</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
